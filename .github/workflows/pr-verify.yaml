@@ -9,6 +9,8 @@ jobs:
   comment:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Check PR name
         id: check-pr-name
         run: | # PRs should have a tag name like: "[JIRA-ID] JIRA SUMMARY" (see documentation at: https://github.com/inditex/srv-wmseshp/blob/develop/CONTRIBUTING-JIRA.md#creating-a-pull-request)
