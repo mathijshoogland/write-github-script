@@ -13,8 +13,10 @@ jobs:
         uses: actions/checkout@v2
       - name: Check PR name
         id: check-pr-name
+        env:
+            PR_NAME: ${{ context.payload.pull_request.title }}
         run: |
-            echo context.payload.pull_request.title
+            echo ${PR_NAME}
       - name: Create comment if PR naming is incorrect.
         uses: actions/github-script@v4
         with:
@@ -26,7 +28,7 @@ jobs:
               repo: context.repo.repo,
               body: '👋 Thanks for creating this PR!!!'
             })
-
+# github.event.head_commit.message
 #       - name: Check Tag
 #         id: check-tag
 #         run: |
