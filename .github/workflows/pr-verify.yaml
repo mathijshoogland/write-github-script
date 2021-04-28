@@ -12,11 +12,9 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
       - name: Check PR name
-        id: check-pr-name
         env:
-            PR_NAME: ${{ context.payload.pull_request.title }}
-        run: |
-            echo ${PR_NAME}
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
       - name: Create comment if PR naming is incorrect.
         uses: actions/github-script@v4
         with:
