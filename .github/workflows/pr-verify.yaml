@@ -12,7 +12,7 @@ jobs:
       - name: Check PR name
         id: check-pr-name
         run: | # PRs should have a tag name like: "[JIRA-ID] JIRA SUMMARY" (see documentation at: https://github.com/inditex/srv-wmseshp/blob/develop/CONTRIBUTING-JIRA.md#creating-a-pull-request)
-            if [[ "${{ github.event.pull_request.title }}" =~ ^\[((?!([A-Z0-9a-z]{1,10})-?$)[A-Z]{1}[A-Z0-9]+-[1-9][0-9]*)\] .*$ ]]; then
+            if [[ "${{ github.event.pull_request.title }}" =~ ^\[[A-Z0-9a-z]{1,10}-[1-9][0-9]*\] .*$ ]]; then
                 echo ::set-output name=match::true
             fi
       - name: Create comment if PR naming is incorrect.
