@@ -9,14 +9,17 @@ jobs:
   comment:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
+#       - name: Checkout repo
+#         uses: actions/checkout@v2
       - name: Check PR name
-        env:
-          GITHUB_CONTEXT: ${{ github.event.pull_request.title }}
-        run: echo "$GITHUB_CONTEXT"
+        id: check-pr-name
+        run: |
+            if [[ ${{ github.event.pull_request.title }} =~ ^[]$ ]]; then
+                echo ::set-output name=match::true
+            fi
       - name: Create comment if PR naming is incorrect.
         uses: actions/github-script@v4
+        if: steps.check-pr-name.outputs.match != 'true'
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
@@ -24,7 +27,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '👋 Thanks for creating this PR!!!'
+              body: '👋 Please follow our PR contributing guidelines!'
             })
 # github.event.head_commit.message
 #       - name: Check Tag
