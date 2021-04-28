@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Check PR name
         env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
+          GITHUB_CONTEXT: ${{ github.event.pull_request.title }}
         run: echo "$GITHUB_CONTEXT"
       - name: Create comment if PR naming is incorrect.
         uses: actions/github-script@v4
