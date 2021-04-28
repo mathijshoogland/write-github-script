@@ -34,7 +34,7 @@ jobs:
       - name: Check branch name
         id: check-branch-name
         run: | # branches should have a name like: hotfix/JIRA-ID (see documentation at: https://github.com/inditex/srv-wmseshp/blob/develop/CONTRIBUTING-JIRA.md#branching-strategy )
-            if [[ "${{ github.event.pull_request.title }}" =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            if [[ "${{ github.event.pull_request.head.ref }}" =~ ^(release|feature|bugfix|revert|hotfix|config)\/[A-Z0-9a-z]{1,10}-[1-9][0-9]*.*$ ]]; then
                 echo ::set-output name=match::true
             fi
       - name: Create comment if branch naming is incorrect.
@@ -43,9 +43,11 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
+            const fs = require('fs')
+            const issueBody = fs.readFileSync(".github/PR_RESPONSES/incorrect_branch_name.md", "utf8")
             github.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '👋 Please follow our branch contributing guidelines!'
+              body: issueBodya
             })
