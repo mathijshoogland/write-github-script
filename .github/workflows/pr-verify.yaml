@@ -26,6 +26,7 @@ jobs:
              body: "Please follow our naming conventions."
              })
 
+
       - name: Add issue to project board
         if: contains(github.event.issue.labels.*.name, 'bug')
         uses: actions/github-script@0.8.0
